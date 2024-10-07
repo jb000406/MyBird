@@ -35,6 +35,11 @@ namespace MyBird
         public GameObject readyUI;
         public GameObject gameoverUI;
 
+        //게임 사운드
+        private AudioSource audioSource;
+
+
+
         #endregion
 
         // Start is called before the first frame update
@@ -45,6 +50,7 @@ namespace MyBird
             birdAnimtor.enabled = false;
             readyUI.SetActive(true);
             gameoverUI.SetActive(false);
+            audioSource = GetComponent<AudioSource>();
         }
 
         // Update is called once per frame
@@ -93,11 +99,28 @@ namespace MyBird
         //컨트롤 입력
         void InputBird()
         {
+            if (GameManager.isDeath)
+                return;
+
+#if UNITY_EDITOR
             //점프:  스페이스바 또는 마우스 왼클릭
             keyJump |= Input.GetKeyDown(KeyCode.Space);
             keyJump |= Input.GetMouseButtonDown(0);
+#else
+            //터치 인풋 처리
+            if(Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
 
-            if(GameManager.isStart == false  && keyJump)
+                if(touch.phase == TouchPhase.Began)
+                {
+                    keyJump |= true;
+                }
+            }
+#endif
+
+
+            if (GameManager.isStart == false  && keyJump)
             {
                 MoveStartBird();
                 GameManager.isStart = true;
@@ -176,6 +199,15 @@ namespace MyBird
 
             //Debug.Log("점수 획득 처리");
             GameManager.Score++;
+
+            //점수 획득 시 사운드 플레이
+            audioSource.Play();
+
+            //기둥 10개를 통과할때마다 - 난이도 상승
+            if(GameManager.Score % 10 == 0)
+            {
+                SpawnManager.levelTimer += 0.05f;
+            }
         }
 
         //이동 시작

@@ -19,6 +19,7 @@ namespace MyBird
 
         [SerializeField] private float maxspawnTimer = 1.05f;
         [SerializeField] private float minspawnTimer = 0.95f;
+        public static float levelTimer = 0f;
 
 
         //스폰 위치
@@ -47,7 +48,7 @@ namespace MyBird
                 SpawnPipe();
 
                 //타이머 초기화
-                countdown = Random.Range(minspawnTimer, maxspawnTimer);
+                countdown = Random.Range(minspawnTimer, maxspawnTimer - levelTimer);
             }
 
             countdown -= Time.deltaTime;
@@ -59,6 +60,5 @@ namespace MyBird
             Vector3 spawnPosition = new Vector3(transform.position.x, spawnY, 0f);
             Instantiate(pipePref, spawnPosition, Quaternion.identity);
         }
-
     }
 }
