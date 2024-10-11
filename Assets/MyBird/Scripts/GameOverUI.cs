@@ -15,7 +15,7 @@ namespace MyBird
         public TextMeshProUGUI Score;
         public TextMeshProUGUI NewText;
 
-        private string loadScene = "TitleScene";
+        private string loadScene = "MyTitleScene";
         #endregion
 
 

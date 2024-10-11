@@ -9,16 +9,14 @@ namespace MyBird
     public class TitleUI : MonoBehaviour
     {
         #region Variables
-        private string loadScene = "PlayScene";
+        private string loadScene = "MyPlayScene";
+
+        public GameObject optionUI;
         #endregion
 
         private void Update()
         {
-            //ġƮ - P key
-            if(Input.GetKeyDown(KeyCode.P))
-            {
-                ResetGameData();
-            }
+            
         }
 
         public void Play()
@@ -26,14 +24,10 @@ namespace MyBird
             SceneManager.LoadScene(loadScene);
         }
 
-        public void AllDelete()
+        public void ShowOptionUI()
         {
-            PlayerPrefs.DeleteAll();
+            optionUI.SetActive(true);
         }
 
-        void ResetGameData()
-        {
-            PlayerPrefs.DeleteAll();
-        }
     }
 }
